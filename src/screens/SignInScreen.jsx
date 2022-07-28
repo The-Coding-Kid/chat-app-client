@@ -38,27 +38,6 @@ const SignInScreen = ({ navigation: { navigate } }) => {
     return unsubscribe;
   }, []);
 
-  const [firstName, setFirstName] = useState("");
-
-  useEffect(() => {
-    getFirstName();
-  }, []);
-
-  function getFirstName() {
-    const ref = collection(db, "users");
-    getDocs(ref)
-      .then((response) => {
-        const firstname = response.docs.map((doc) => ({
-          data: doc.data(),
-          id: doc.id,
-        }));
-        setFirstName(firstname);
-      })
-      .catch((error) => console.log(error.message));
-  }
-
-  console.log(firstName);
-
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, password).then(
       async (userCredentials) => {
