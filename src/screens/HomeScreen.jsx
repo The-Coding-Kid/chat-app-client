@@ -111,7 +111,6 @@ const HomeScreen = ({ navigation: { navigate } }) => {
             <TouchableOpacity
               onPress={() => {
                 liked(heart);
-                console.log(heart);
               }}
             >
               <Ionicons name={heart} size={25} color={color} />
