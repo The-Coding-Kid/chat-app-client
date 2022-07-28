@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   FlatList,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { Title, Button, Searchbar, Card, Text } from "react-native-paper";
 import { db, auth } from "../../firebase_init";
@@ -57,7 +58,14 @@ const HomeScreen = ({ navigation: { navigate } }) => {
     {
       id: "58694a0f-3da1-471f-bd96-145571e29d72",
       title: "Third Item",
-      username: "Rohit",
+      username: "Da Boss",
+      profilePhoto:
+        "https://atripco.net/wp-content/uploads/2021/12/Profile-testimonal-1.jpg",
+      datePosted: "01.08.2022",
+      description:
+        "I played brawl stars for 26 hours in a day! Look at all the brawlers I got.",
+      image:
+        "https://www.ginx.tv/uploads2/Various/Brawl_Stars/Brawl_Stars_cover.jpg",
     },
   ];
 
@@ -131,14 +139,14 @@ const HomeScreen = ({ navigation: { navigate } }) => {
     <View style={styles.container}>
       <View style={styles.stuff}>
         <Searchbar style={styles.searchbar} />
-        <View style={{ marginTop: 10 }}>
+        <ScrollView style={{ marginTop: 10 }}>
           <FlatList
             data={DATA}
             renderItem={renderItem}
             keyExtractor={(item) => item.id}
             showsVerticalScrollIndicator={false}
           />
-        </View>
+        </ScrollView>
       </View>
     </View>
   );
