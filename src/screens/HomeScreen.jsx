@@ -24,50 +24,71 @@ import {
 import { StatusBar } from "expo-status-bar";
 const mongoose = require("mongoose");
 import { Ionicons } from "@expo/vector-icons";
+import axios from "axios";
+
+const arrayBufferToBase64 = (buffer) => {
+  var binary = "";
+  var bytes = [].slice.call(new Uint8Array(buffer));
+  bytes.forEach((b) => (binary += String.fromCharCode(b)));
+  return btoa(binary);
+};
 
 const HomeScreen = ({ navigation: { navigate } }) => {
   const [heart, setHeart] = useState("heart-outline");
   const [color, setColor] = useState("black");
+  const [DATA, setPosts] = useState("");
 
-  const DATA = [
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-      username: "Aravindkrishna A",
-      title: "First Item",
-      profilePhoto:
-        "https://atripco.net/wp-content/uploads/2021/12/Profile-testimonal-1.jpg",
-      datePosted: "06.10.2022",
-      description:
-        "I went to Starr Park and saw Bonnie and Stu/ I also saw the stunt show. Woohoo!",
-      image:
-        "https://blog.brawlstars.com/uploaded-images/954008081_1655279220.jpg?mtime=20220615074700",
-      heart: "heart-outline",
-    },
-    {
-      id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-      title: "Second Item",
-      username: "Rohit V",
-      profilePhoto:
-        "https://atripco.net/wp-content/uploads/2021/12/Profile-testimonal-1.jpg",
-      datePosted: "01.08.2022",
-      description:
-        "I played brawl stars for 26 hours in a day! Look at all the brawlers I got.",
-      image:
-        "https://www.ginx.tv/uploads2/Various/Brawl_Stars/Brawl_Stars_cover.jpg",
-    },
-    {
-      id: "58694a0f-3da1-471f-bd96-145571e29d72",
-      title: "Third Item",
-      username: "Da Boss",
-      profilePhoto:
-        "https://atripco.net/wp-content/uploads/2021/12/Profile-testimonal-1.jpg",
-      datePosted: "01.08.2022",
-      description:
-        "I played brawl stars for 26 hours in a day! Look at all the brawlers I got.",
-      image:
-        "https://www.ginx.tv/uploads2/Various/Brawl_Stars/Brawl_Stars_cover.jpg",
-    },
-  ];
+  const getData = async () => {
+    const response = await axios(
+      "https://e285-98-37-209-152.ngrok.io/api/posts"
+    );
+    setPosts(response.data);
+    console.log(response.data[0].image.data.data);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  // const DATA = [
+  //   {
+  //     id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
+  //     username: "Aravindkrishna A",
+  //     title: "First Item",
+  //     profilePhoto:
+  //       "https://atripco.net/wp-content/uploads/2021/12/Profile-testimonal-1.jpg",
+  //     datePosted: "06.10.2022",
+  //     description:
+  //       "I went to Starr Park and saw Bonnie and Stu/ I also saw the stunt show. Woohoo!",
+  //     image:
+  //       "https://blog.brawlstars.com/uploaded-images/954008081_1655279220.jpg?mtime=20220615074700",
+  //     heart: "heart-outline",
+  //   },
+  //   {
+  //     id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
+  //     title: "Second Item",
+  //     username: "Rohit V",
+  //     profilePhoto:
+  //       "https://atripco.net/wp-content/uploads/2021/12/Profile-testimonal-1.jpg",
+  //     datePosted: "01.08.2022",
+  //     description:
+  //       "I played brawl stars for 26 hours in a day! Look at all the brawlers I got.",
+  //     image:
+  //       "https://www.ginx.tv/uploads2/Various/Brawl_Stars/Brawl_Stars_cover.jpg",
+  //   },
+  //   {
+  //     id: "58694a0f-3da1-471f-bd96-145571e29d72",
+  //     title: "Third Item",
+  //     username: "Da Boss",
+  //     profilePhoto:
+  //       "https://atripco.net/wp-content/uploads/2021/12/Profile-testimonal-1.jpg",
+  //     datePosted: "01.08.2022",
+  //     description:
+  //       "I played brawl stars for 26 hours in a day! Look at all the brawlers I got.",
+  //     image:
+  //       "https://www.ginx.tv/uploads2/Various/Brawl_Stars/Brawl_Stars_cover.jpg",
+  //   },
+  // ];
 
   const liked = (item) => {
     if (item == "heart-outline") {
@@ -80,6 +101,8 @@ const HomeScreen = ({ navigation: { navigate } }) => {
   };
 
   const renderItem = ({ item }) => {
+    // var base64Flag = "data:image/jpeg;base64,";
+    // var imageStr = this.arrayBufferToBase64(item.image.data);
     return (
       <View>
         <Card mode={"elevated"} style={styles.post}>
@@ -90,14 +113,14 @@ const HomeScreen = ({ navigation: { navigate } }) => {
                 source={{ uri: item.profilePhoto }}
               />
               <View style={{ marginTop: 15, marginLeft: 5 }}>
-                <Text style={{ fontWeight: "bold" }}>{item.username}</Text>
+                <Text style={{ fontWeight: "bold" }}>{item.createdByName}</Text>
                 <Text style={{ marginTop: 5, color: "#cdcccf" }}>
-                  {item.datePosted}
+                  {item.createdAt}
                 </Text>
               </View>
             </View>
             <Text style={{ marginTop: 10, marginLeft: 10 }}>
-              {item.description}
+              {item.content}
             </Text>
             <Image style={styles.image} source={{ uri: item.image }} />
           </TouchableOpacity>
