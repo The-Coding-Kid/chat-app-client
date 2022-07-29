@@ -9,8 +9,16 @@ import {
   TouchableOpacity,
   ScrollView,
   RefreshControl,
+  SafeAreaView,
 } from "react-native";
-import { Title, Button, Searchbar, Card, Text } from "react-native-paper";
+import {
+  Title,
+  Button,
+  Searchbar,
+  Card,
+  Text,
+  AnimatedFAB,
+} from "react-native-paper";
 import { db, auth } from "../../firebase_init";
 import {
   collection,
@@ -39,11 +47,33 @@ const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
 };
 
-const HomeScreen = ({ navigation: { navigate } }) => {
+const HomeScreen = ({
+  animatedValue,
+  visible,
+  extended,
+  label,
+  animateFrom,
+  style,
+  iconMode,
+  navigation: { navigate },
+}) => {
   const [heart, setHeart] = useState("heart-outline");
   const [color, setColor] = useState("black");
   const [DATA, setPosts] = useState("");
   const [refreshing, setRefreshing] = useState(false);
+
+  const [isExtended, setIsExtended] = React.useState(true);
+
+  const isIOS = Platform.OS === "ios";
+
+  const onScroll = ({ nativeEvent }) => {
+    const currentScrollPosition =
+      Math.floor(nativeEvent?.contentOffset?.y) ?? 0;
+
+    setIsExtended(currentScrollPosition <= 0);
+  };
+
+  const fabStyle = { [animateFrom]: 5 };
 
   const getData = async () => {
     const response = await axios(
@@ -62,46 +92,6 @@ const HomeScreen = ({ navigation: { navigate } }) => {
     wait(750).then(() => setRefreshing(false));
     getData();
   }, []);
-
-  // const DATA = [
-  //   {
-  //     id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-  //     username: "Aravindkrishna A",
-  //     title: "First Item",
-  //     profilePhoto:
-  //       "https://atripco.net/wp-content/uploads/2021/12/Profile-testimonal-1.jpg",
-  //     datePosted: "06.10.2022",
-  //     description:
-  //       "I went to Starr Park and saw Bonnie and Stu/ I also saw the stunt show. Woohoo!",
-  //     image:
-  //       "https://blog.brawlstars.com/uploaded-images/954008081_1655279220.jpg?mtime=20220615074700",
-  //     heart: "heart-outline",
-  //   },
-  //   {
-  //     id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-  //     title: "Second Item",
-  //     username: "Rohit V",
-  //     profilePhoto:
-  //       "https://atripco.net/wp-content/uploads/2021/12/Profile-testimonal-1.jpg",
-  //     datePosted: "01.08.2022",
-  //     description:
-  //       "I played brawl stars for 26 hours in a day! Look at all the brawlers I got.",
-  //     image:
-  //       "https://www.ginx.tv/uploads2/Various/Brawl_Stars/Brawl_Stars_cover.jpg",
-  //   },
-  //   {
-  //     id: "58694a0f-3da1-471f-bd96-145571e29d72",
-  //     title: "Third Item",
-  //     username: "Da Boss",
-  //     profilePhoto:
-  //       "https://atripco.net/wp-content/uploads/2021/12/Profile-testimonal-1.jpg",
-  //     datePosted: "01.08.2022",
-  //     description:
-  //       "I played brawl stars for 26 hours in a day! Look at all the brawlers I got.",
-  //     image:
-  //       "https://www.ginx.tv/uploads2/Various/Brawl_Stars/Brawl_Stars_cover.jpg",
-  //   },
-  // ];
 
   const liked = (item) => {
     if (item == "heart-outline") {
@@ -173,7 +163,7 @@ const HomeScreen = ({ navigation: { navigate } }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.stuff}>
         <Searchbar style={styles.searchbar} />
         <ScrollView
@@ -181,6 +171,7 @@ const HomeScreen = ({ navigation: { navigate } }) => {
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
+          onScroll={onScroll}
         >
           <FlatList
             data={DATA}
@@ -190,7 +181,19 @@ const HomeScreen = ({ navigation: { navigate } }) => {
           />
         </ScrollView>
       </View>
-    </View>
+      <AnimatedFAB
+        icon={"plus"}
+        label={"Create"}
+        extended={isExtended}
+        onPress={() => console.log("Pressed")}
+        visible={visible}
+        animateFrom={"right"}
+        iconMode={"static"}
+        style={[styles.fabStyle, style, fabStyle]}
+        color={"#0079fd"}
+        varient={"secondary"}
+      />
+    </SafeAreaView>
   );
 };
 
@@ -199,15 +202,14 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     alignItems: "center",
     flex: 1,
+    flexGrow: 1,
   },
   searchbar: {
     width: "90%",
     marginTop: "5%",
     marginLeft: "5%",
   },
-  stuff: {
-    marginTop: 30,
-  },
+  stuff: {},
   post: {
     marginBottom: 5,
     marginTop: 5,
@@ -227,6 +229,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 2.5,
     borderRadius: 10,
+  },
+  fabStyle: {
+    bottom: 16,
+    right: 16,
+    position: "absolute",
+    backgroundColor: "white",
   },
 });
 
