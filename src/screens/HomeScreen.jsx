@@ -48,19 +48,16 @@ const wait = (timeout) => {
 };
 
 const HomeScreen = ({
-  animatedValue,
   visible,
-  extended,
-  label,
   animateFrom,
   style,
-  iconMode,
   navigation: { navigate },
 }) => {
   const [heart, setHeart] = useState("heart-outline");
   const [color, setColor] = useState("black");
   const [DATA, setPosts] = useState("");
   const [refreshing, setRefreshing] = useState(false);
+  const [fabcolor, setFabColor] = useState("white");
 
   const [isExtended, setIsExtended] = React.useState(true);
 
@@ -185,13 +182,23 @@ const HomeScreen = ({
         icon={"plus"}
         label={"Create"}
         extended={isExtended}
-        onPress={() => console.log("Pressed")}
+        onPress={() => navigate("Create Post")}
         visible={visible}
         animateFrom={"right"}
-        iconMode={"static"}
+        // iconMode={"static"}
         style={[styles.fabStyle, style, fabStyle]}
-        color={"#0079fd"}
-        varient={"secondary"}
+        // color={"#0079fd"}
+        // fabStyle={{ backgroundColor: "blue" }}
+        theme={{
+          roundness: 20,
+          colors: {
+            primary: "#ffff",
+            underlineColor: "transparent",
+          },
+          backgroundColor: {
+            primary: "white",
+          },
+        }}
       />
     </SafeAreaView>
   );
@@ -234,7 +241,7 @@ const styles = StyleSheet.create({
     bottom: 16,
     right: 16,
     position: "absolute",
-    backgroundColor: "white",
+    // backgroundColor: "white",
   },
 });
 

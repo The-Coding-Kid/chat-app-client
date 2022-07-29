@@ -10,10 +10,26 @@ import GroupsScreen from "./src/screens/GroupsScreen";
 import { Ionicons } from "@expo/vector-icons";
 import Blank from "./src/screens/blank";
 import { StatusBar } from "expo-status-bar";
+import CreatePOstScreen from "./src/screens/CreatePostScreen";
+import {
+  MD3LightTheme as DefaultTheme,
+  Provider as PaperProvider,
+} from "react-native-paper";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
+// const theme = {
+//   ...DefaultTheme,
+//   roundness: 2,
+//   version: 3,
+//   colors: {
+//     ...DefaultTheme.colors,
+//     primary: "#3498db",
+//     secondary: "#f1c40f",
+//     tertiary: "#a1b2c3",
+//   },
+// };
 const HomeTab = () => {
   //FIXME: I don't know how to style the words on each tab. Or make it go away. Will it look better without the labels?
   return (
@@ -61,31 +77,38 @@ const HomeTab = () => {
 
 function App() {
   return (
-    <NavigationContainer>
-      <StatusBar style="auto" />
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Sign In"
-          component={SignInScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Sign Up"
-          component={SignUpScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="HomeTab"
-          component={HomeTab}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Blank"
-          component={Blank}
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <PaperProvider>
+      <NavigationContainer>
+        <StatusBar style="auto" />
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Sign In"
+            component={SignInScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Sign Up"
+            component={SignUpScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="HomeTab"
+            component={HomeTab}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Blank"
+            component={Blank}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Create Post"
+            component={CreatePOstScreen}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </PaperProvider>
   );
 }
 
