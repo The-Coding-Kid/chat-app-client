@@ -25,6 +25,7 @@ import { StatusBar } from "expo-status-bar";
 const mongoose = require("mongoose");
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
+import { decode as atob, encode as btoa } from "base-64";
 
 const arrayBufferToBase64 = (buffer) => {
   var binary = "";
@@ -43,7 +44,7 @@ const HomeScreen = ({ navigation: { navigate } }) => {
       "https://e285-98-37-209-152.ngrok.io/api/posts"
     );
     setPosts(response.data);
-    console.log(response.data[0].image.data.data);
+    // console.log(response.data[0].image.data.data);
   };
 
   useEffect(() => {
@@ -101,8 +102,9 @@ const HomeScreen = ({ navigation: { navigate } }) => {
   };
 
   const renderItem = ({ item }) => {
-    // var base64Flag = "data:image/jpeg;base64,";
-    // var imageStr = this.arrayBufferToBase64(item.image.data);
+    var base64Flag = "data:image/jpeg;base64,";
+    var imageStr = arrayBufferToBase64(item.image.data.data);
+    var image = base64Flag + imageStr;
     return (
       <View>
         <Card mode={"elevated"} style={styles.post}>
@@ -122,7 +124,7 @@ const HomeScreen = ({ navigation: { navigate } }) => {
             <Text style={{ marginTop: 10, marginLeft: 10 }}>
               {item.content}
             </Text>
-            <Image style={styles.image} source={{ uri: item.image }} />
+            <Image style={styles.image} source={{ uri: image }} />
           </TouchableOpacity>
           <View
             style={{
@@ -166,7 +168,7 @@ const HomeScreen = ({ navigation: { navigate } }) => {
           <FlatList
             data={DATA}
             renderItem={renderItem}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item._id}
             showsVerticalScrollIndicator={false}
           />
         </ScrollView>
