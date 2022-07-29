@@ -8,6 +8,7 @@ import {
   FlatList,
   TouchableOpacity,
   ScrollView,
+  RefreshControl,
 } from "react-native";
 import { Title, Button, Searchbar, Card, Text } from "react-native-paper";
 import { db, auth } from "../../firebase_init";
@@ -34,10 +35,15 @@ const arrayBufferToBase64 = (buffer) => {
   return btoa(binary);
 };
 
+const wait = (timeout) => {
+  return new Promise((resolve) => setTimeout(resolve, timeout));
+};
+
 const HomeScreen = ({ navigation: { navigate } }) => {
   const [heart, setHeart] = useState("heart-outline");
   const [color, setColor] = useState("black");
   const [DATA, setPosts] = useState("");
+  const [refreshing, setRefreshing] = useState(false);
 
   const getData = async () => {
     const response = await axios(
@@ -48,6 +54,12 @@ const HomeScreen = ({ navigation: { navigate } }) => {
   };
 
   useEffect(() => {
+    getData();
+  }, []);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(750).then(() => setRefreshing(false));
     getData();
   }, []);
 
@@ -117,7 +129,7 @@ const HomeScreen = ({ navigation: { navigate } }) => {
               <View style={{ marginTop: 15, marginLeft: 5 }}>
                 <Text style={{ fontWeight: "bold" }}>{item.createdByName}</Text>
                 <Text style={{ marginTop: 5, color: "#cdcccf" }}>
-                  {item.createdAt}
+                  {item.createdAt.slice(0, 10)}
                 </Text>
               </View>
             </View>
@@ -164,7 +176,12 @@ const HomeScreen = ({ navigation: { navigate } }) => {
     <View style={styles.container}>
       <View style={styles.stuff}>
         <Searchbar style={styles.searchbar} />
-        <ScrollView style={{ marginTop: 10 }}>
+        <ScrollView
+          style={{ marginTop: 10 }}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
           <FlatList
             data={DATA}
             renderItem={renderItem}
