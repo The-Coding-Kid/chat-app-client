@@ -18,9 +18,12 @@ import {
   getDocs,
   QuerySnapshot,
 } from "firebase/firestore";
+import { Video, AVPlaybackStatus } from "expo-av";
 
 const AccountScreen = ({ navigation: { navigate } }) => {
   const [firstName, setFirstName] = useState("");
+  const video = React.useRef(null);
+  const [status, setStatus] = React.useState({});
 
   const SignOut = () => {
     signOut(auth)
@@ -39,8 +42,26 @@ const AccountScreen = ({ navigation: { navigate } }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.stuff}>
-        <Title>Account</Title>
+        <Video
+          ref={video}
+          style={styles.video}
+          source={{
+            uri: "https://storage.googleapis.com/chat-app-storage/IMG_6629.MOV",
+          }}
+          useNativeControls
+          resizeMode="contain"
+          isLooping
+          onPlaybackStatusUpdate={(status) => setStatus(() => status)}
+        />
+        <Title>Welcome Veerrohit</Title>
+        <Image
+          source={{
+            uri: "https://www.seekpng.com/png/detail/966-9665493_my-profile-icon-blank-profile-image-circle.png",
+          }}
+          style={styles.tinyLogo}
+        />
         <Text>Email: {auth.currentUser?.email}</Text>
+        <Text>Password: a***b*</Text>
         <Button
           style={{
             marginTop: 10,
@@ -52,6 +73,16 @@ const AccountScreen = ({ navigation: { navigate } }) => {
           onPress={SignOut}
         >
           Sign out
+        </Button>
+        <Button
+          title={status.isPlaying ? "Pause" : "Play"}
+          onPress={() =>
+            status.isPlaying
+              ? video.current.pauseAsync()
+              : video.current.playAsync()
+          }
+        >
+          Hello
         </Button>
       </View>
     </SafeAreaView>
@@ -66,6 +97,21 @@ const styles = StyleSheet.create({
   },
   stuff: {
     marginTop: 30,
+    alignItems: "center",
+  },
+  tinyLogo: {
+    width: 150,
+    height: 150,
+    borderRadius: 100,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  video: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
   },
 });
 
