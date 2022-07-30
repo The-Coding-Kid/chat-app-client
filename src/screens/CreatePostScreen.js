@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   ActivityIndicator,
   StyleSheet,
@@ -9,16 +9,94 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { TextInput } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Button, Modal, Portal, Provider } from "react-native-paper";
-import DropDownPicker from "react-native-dropdown-picker";
+import { Camera, CameraType } from "expo-camera";
+import * as ImagePicker from "expo-image-picker";
+import axios from "axios";
 
 const CreatePOstScreen = ({ navigation: { navigate } }) => {
   const [item, setItem] = useState("Public");
   const [visible, setVisible] = React.useState(false);
   const [visible2, setVisible2] = useState(false);
+
+  const [hasPermission, setHasPermission] = useState(null);
+  const [type, setType] = useState(Camera.Constants.Type.back);
+  const [cameraRef, setCameraRef] = useState(null);
+  const [image, setData] = useState(null);
+  const [text, setText] = useState(null);
+  const [character, setCharacter] = useState(0);
+  const [uri, setUri] = useState(null);
+
+  const whenTyping = () => {
+    setText();
+  };
+
+  const uploadPhoto = async () => {
+    let formData = new FormData();
+
+    let string = image.uri;
+
+    setUri(image.uri);
+
+    let file_name = " ";
+    //@ts-ignore
+    for (let i = 0; i < image.uri.length; i++) {
+      //@ts-ignore
+      let substr = string.substring(i, image.uri.length);
+      if (!substr.includes("/")) {
+        file_name = substr;
+        break;
+      }
+    }
+    formData.append("file", {
+      uri: image.uri,
+      type: "image/jpeg",
+      name: "image123",
+    });
+    console.log(image.uri);
+
+    formData.append("content", text);
+    formData.append("createdByName", "BoB");
+    formData.append("createdByEmail", "bT21@GMAIL.COM");
+
+    // await fetch("https://e285-98-37-209-152.ngrok.io/api/posts/create", {
+    //   method: "POST",
+    //   body: formData,
+    //   headers: {
+    //     "Content-Type": "multipart/form-data",
+    //   },
+    // }).then((res) => console.log(res));
+
+    let res = await fetch(
+      "https://e285-98-37-209-152.ngrok.io/api/posts/create",
+      {
+        method: "post",
+        body: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    console.log("response: ", res);
+  };
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestPermissionsAsync();
+      setHasPermission(status === "granted");
+      setData(null);
+    })();
+  }, []);
+
+  if (hasPermission === null) {
+    return <View />;
+  }
+  if (hasPermission === false) {
+    return <Text>No access to camera</Text>;
+  }
 
   const showModal = () => {
     Keyboard.dismiss();
@@ -39,6 +117,27 @@ const CreatePOstScreen = ({ navigation: { navigate } }) => {
     borderRadius: 10,
   };
 
+  const containerCameraStyle = {
+    backgroundColor: "white",
+    height: "90%",
+    marginTop: "50%",
+    borderRadius: 10,
+  };
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (result.cancelled === false) {
+      //@ts-ignore
+      setData(result);
+    }
+  };
+
   return (
     <Provider>
       <Portal>
@@ -57,84 +156,154 @@ const CreatePOstScreen = ({ navigation: { navigate } }) => {
           animationType="slide"
           visible={visible2}
           onDismiss={hideModalForCamera}
-          contentContainerStyle={containerStyle}
+          contentContainerStyle={containerCameraStyle}
           style={{ height: "90%" }}
         >
-          <Text>Example Modal. Click outside this area to dismiss.</Text>
+          <Camera
+            style={styles.camera}
+            type={type}
+            ref={(ref) => {
+              setCameraRef(ref);
+            }}
+            ratio="474:266"
+          >
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                style={styles.flipButton}
+                onPress={() => {
+                  setType(
+                    type === Camera.Constants.Type.back
+                      ? Camera.Constants.Type.front
+                      : Camera.Constants.Type.back
+                  );
+                }}
+              >
+                <Ionicons
+                  name="camera-reverse-outline"
+                  size={40}
+                  style={{ padding: 10 }}
+                />
+              </TouchableOpacity>
+              <Ionicons
+                name="ellipse-outline"
+                color="white"
+                size={75}
+                style={{
+                  position: "absolute",
+                  marginTop: "140%",
+                  marginLeft: "41%",
+                }}
+                onPress={async () => {
+                  if (cameraRef) {
+                    let photo = await cameraRef.takePictureAsync();
+                    setData(photo);
+                    console.log(photo);
+                    hideModalForCamera();
+                  }
+                }}
+              />
+            </View>
+          </Camera>
         </Modal>
       </Portal>
       <TouchableWithoutFeedback keyboardShouldPersistTaps="always">
         <View style={[styles.container, styles.horizontal]}>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginTop: 40,
-            }}
-          >
-            <Button onPress={() => navigate("HomeTab")}>
-              <Text style={{ color: "black" }}>Cancel</Text>
-            </Button>
-            <Button
+          <ScrollView>
+            <View
               style={{
-                marginTop: 10,
-                backgroundColor: "#3c65a0",
-                alignSelf: "center",
-                marginRight: 10,
-                borderRadius: 100,
+                flexDirection: "row",
+                justifyContent: "space-between",
+                marginTop: 40,
               }}
-              mode="contained"
             >
-              Send
-            </Button>
-          </View>
-          <View style={{ flexDirection: "row" }}>
-            <Image
-              style={styles.tinyLogo}
-              source={{
-                uri: "https://media.brawltime.ninja/brawlers/bonnie/pins/Pin-Phew.png?size=160",
-              }}
-            />
-            <View style={{ marginLeft: 30, marginTop: 10 }}>
-              <View style={{ flexDirection: "row" }}>
-                <TouchableOpacity
-                  style={{
-                    height: 30,
-                    width: 100,
-                    alignItems: "center",
-                    borderWidth: 1,
-                    justifyContent: "center",
-                    borderRadius: 100,
-                    borderColor: "#3c65a0",
-                  }}
-                  onPress={showModal}
-                >
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={{ color: "#3c65a0" }}>{item}</Text>
-                    <Text> </Text>
-                    <Ionicons
-                      name={"chevron-down-outline"}
-                      size={17.5}
-                      color={"#3c65a0"}
-                    />
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={showModalForCamera}>
-                  <Ionicons
-                    name="add-circle-outline"
-                    color="#3c65a0"
-                    style={{ marginLeft: 10, marginTop: 1.5 }}
-                    size={25}
-                  />
-                </TouchableOpacity>
-              </View>
-              <TextInput
-                style={{ height: 200, marginTop: 10 }}
-                multiline
-                placeholder="Something cooking?"
-              ></TextInput>
+              <Button onPress={() => navigate("HomeTab")}>
+                <Text style={{ color: "black" }}>Cancel</Text>
+              </Button>
+              <Button
+                style={{
+                  marginTop: 10,
+                  backgroundColor: "#3c65a0",
+                  alignSelf: "center",
+                  marginRight: 10,
+                  borderRadius: 100,
+                }}
+                mode="contained"
+                onPress={() => uploadPhoto()}
+              >
+                Send
+              </Button>
             </View>
-          </View>
+            <View style={{ flexDirection: "row" }}>
+              <Image
+                style={styles.tinyLogo}
+                source={{
+                  uri: "https://media.brawltime.ninja/brawlers/bonnie/pins/Pin-Phew.png?size=160",
+                  cache: "only-if-cached",
+                }}
+              />
+              <View style={{ marginLeft: 30, marginTop: 10 }}>
+                <View style={{ flexDirection: "row" }}>
+                  <TouchableOpacity
+                    style={{
+                      height: 30,
+                      width: 100,
+                      alignItems: "center",
+                      borderWidth: 1,
+                      justifyContent: "center",
+                      borderRadius: 100,
+                      borderColor: "#3c65a0",
+                    }}
+                    onPress={showModal}
+                  >
+                    <View style={{ flexDirection: "row" }}>
+                      <Text style={{ color: "#3c65a0" }}>{item}</Text>
+                      <Text> </Text>
+                      <Ionicons
+                        name={"chevron-down-outline"}
+                        size={17.5}
+                        color={"#3c65a0"}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={showModalForCamera}>
+                    <Ionicons
+                      name="camera-outline"
+                      color="#3c65a0"
+                      style={{ marginLeft: 10, marginTop: 1.5 }}
+                      size={25}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={pickImage}>
+                    <Ionicons
+                      name="image-outline"
+                      color="#3c65a0"
+                      style={{ marginLeft: 10, marginTop: 1.5 }}
+                      size={25}
+                    />
+                  </TouchableOpacity>
+                </View>
+                <TextInput
+                  style={{
+                    height: 200,
+                    marginTop: 10,
+                    width: 275,
+                  }}
+                  multiline
+                  placeholder="Something cooking?"
+                  onChangeText={setText}
+                  maxLength={200}
+                ></TextInput>
+                <Text>{text}</Text>
+              </View>
+            </View>
+            {image && (
+              <Image
+                //@ts-ignore
+                source={{ uri: image.uri, cache: "only-if-cached" }}
+                style={styles.imageStyle}
+              />
+            )}
+          </ScrollView>
         </View>
       </TouchableWithoutFeedback>
     </Provider>
@@ -145,6 +314,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
+    flexGrow: 1,
   },
   tinyLogo: {
     width: 50,
@@ -152,6 +322,17 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     marginTop: 10,
     marginLeft: 10,
+  },
+  camera: {
+    height: "100%",
+  },
+  imageStyle: {
+    width: "73.5%",
+    height: 300 * 1.5,
+    margin: 7.5,
+    marginTop: 30,
+    borderRadius: 20,
+    marginLeft: "13.25%",
   },
 });
 

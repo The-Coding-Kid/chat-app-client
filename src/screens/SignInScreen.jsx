@@ -58,6 +58,7 @@ const SignInScreen = ({ navigation: { navigate } }) => {
             width: 100,
             alignSelf: "center",
             marginTop: 20,
+            cache: "only-if-cached",
           }}
           source={{
             uri: "https://hershey-montessori.org/wp-content/uploads/2020/03/facebook-logo.png",

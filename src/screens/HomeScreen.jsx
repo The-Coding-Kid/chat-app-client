@@ -111,7 +111,7 @@ const HomeScreen = ({
             <View style={{ flexDirection: "row" }}>
               <Image
                 style={styles.tinyLogo}
-                source={{ uri: item.profilePhoto }}
+                source={{ uri: item.profilePhoto, cache: "only-if-cached" }}
               />
               <View style={{ marginTop: 15, marginLeft: 5 }}>
                 <Text style={{ fontWeight: "bold" }}>{item.createdByName}</Text>
@@ -123,7 +123,10 @@ const HomeScreen = ({
             <Text style={{ marginTop: 10, marginLeft: 10 }}>
               {item.content}
             </Text>
-            <Image style={styles.image} source={{ uri: image }} />
+            <Image
+              style={styles.image}
+              source={{ uri: image, cache: "only-if-cached" }}
+            />
           </TouchableOpacity>
           <View
             style={{
@@ -221,7 +224,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     marginTop: 5,
     backgroundColor: "white",
-    height: 375,
+    paddingBottom: 20,
   },
   tinyLogo: {
     width: 50,
