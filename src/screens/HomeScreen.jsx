@@ -123,10 +123,7 @@ const HomeScreen = ({
             <Text style={{ marginTop: 10, marginLeft: 10 }}>
               {item.content}
             </Text>
-            <Image
-              style={styles.image}
-              source={{ uri: image, cache: "only-if-cached" }}
-            />
+            <Image style={styles.image} source={{ uri: image }} />
           </TouchableOpacity>
           <View
             style={{
