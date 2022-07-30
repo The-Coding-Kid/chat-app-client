@@ -101,9 +101,6 @@ const HomeScreen = ({
   };
 
   const renderItem = ({ item }) => {
-    var base64Flag = "data:image/jpeg;base64,";
-    var imageStr = arrayBufferToBase64(item.image.data.data);
-    var image = base64Flag + imageStr;
     return (
       <View>
         <Card mode={"elevated"} style={styles.post}>
@@ -123,7 +120,7 @@ const HomeScreen = ({
             <Text style={{ marginTop: 10, marginLeft: 10 }}>
               {item.content}
             </Text>
-            <Image style={styles.image} source={{ uri: image }} />
+            <Image style={styles.image} source={{ uri: item.image }} />
           </TouchableOpacity>
           <View
             style={{
