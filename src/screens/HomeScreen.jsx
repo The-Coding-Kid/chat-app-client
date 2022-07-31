@@ -175,9 +175,9 @@ const HomeScreen = ({
             keyExtractor={(item) => item._id}
             showsVerticalScrollIndicator={false}
             removeClippedSubviews={true} // Unmount components when outside of window
-            initialNumToRender={3} // Reduce initial render amount
+            initialNumToRender={5} // Reduce initial render amount
             maxToRenderPerBatch={2} // Reduce number in each render batch
-            windowSize={12} // Reduce the window size
+            windowSize={11} // Reduce the window size
           />
         </ScrollView>
       </View>
