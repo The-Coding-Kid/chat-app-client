@@ -3215,7 +3215,7 @@ expo-image-loader@~3.2.0:
 
 expo-image-picker@^13.1.1:
   version "13.1.1"
-  resolved "https://registry.npmjs.org/expo-image-picker/-/expo-image-picker-13.1.1.tgz"
+  resolved "https://registry.yarnpkg.com/expo-image-picker/-/expo-image-picker-13.1.1.tgz#e039bf9748ccb7b89370ff2969c3ef07cc949192"
   integrity sha512-fU8oONRkKg5DvuU+7KvnuOtf1ubzXNU/OsE/T6yB149LbXb+ZN5A49NicvJ+cOG4Oa5NAnILt0aAAkchIr3iRQ==
   dependencies:
     "@expo/config-plugins" "^4.0.14"
