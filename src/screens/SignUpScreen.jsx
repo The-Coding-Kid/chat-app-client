@@ -34,33 +34,34 @@ const SignUpScreen = ({ navigation: { navigate } }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 
-  const uploadPhoto = async () => {
+  const image =
+    "https://www.seekpng.com/png/detail/966-9665493_my-profile-icon-blank-profile-image-circle.png";
+
+  const createUser = async () => {
     let formData = new FormData();
 
-    let string = image.uri;
-
-    setUri(image.uri);
+    let string = "";
 
     let file_name = " ";
     //@ts-ignore
-    for (let i = 0; i < image.uri.length; i++) {
+    for (let i = 0; i < image.length; i++) {
       //@ts-ignore
-      let substr = string.substring(i, image.uri.length);
+      let substr = string.substring(i, image.length);
       if (!substr.includes("/")) {
         file_name = substr;
         break;
       }
     }
     formData.append("file", {
-      uri: image.uri,
+      uri: image,
       type: "image/jpeg",
       name: file_name + Date.now(),
     });
     console.log(image.uri);
 
-    formData.append("content", text);
-    formData.append("createdByName", "BoB");
-    formData.append("createdByEmail", "bT21@GMAIL.COM");
+    formData.append("first_name", firstName);
+    formData.append("last_name", lastName);
+    formData.append("email", email);
 
     // await fetch("https://e285-98-37-209-152.ngrok.io/api/posts/create", {
     //   method: "POST",
@@ -70,16 +71,13 @@ const SignUpScreen = ({ navigation: { navigate } }) => {
     //   },
     // }).then((res) => console.log(res));
 
-    let res = await fetch(
-      "https://e285-98-37-209-152.ngrok.io/api/posts/create",
-      {
-        method: "post",
-        body: formData,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
+    let res = await fetch("https://e285-98-37-209-152.ngrok.io/api/register", {
+      method: "post",
+      body: formData,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     console.log("response: ", res);
   };
 
@@ -95,7 +93,7 @@ const SignUpScreen = ({ navigation: { navigate } }) => {
   };
 
   const handleSignUp = async () => {
-    await CreateNewUser();
+    await createUser();
     navigate("Blank");
     createUserWithEmailAndPassword(auth, email, password).then(
       (userCredentials) => {
