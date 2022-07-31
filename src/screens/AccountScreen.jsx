@@ -19,11 +19,26 @@ import {
   QuerySnapshot,
 } from "firebase/firestore";
 import { Video, AVPlaybackStatus } from "expo-av";
+import axios from "axios";
 
 const AccountScreen = ({ navigation: { navigate } }) => {
   const [firstName, setFirstName] = useState("");
   const video = React.useRef(null);
   const [status, setStatus] = React.useState({});
+
+  const getUserInfo = async () => {
+    const res = await axios.get(
+      "https://e285-98-37-209-152.ngrok.io/api/user",
+      {
+        params: { email: auth.currentUser?.email },
+      }
+    );
+    console.log(res);
+  };
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
   const SignOut = () => {
     signOut(auth)

@@ -34,8 +34,7 @@ const SignUpScreen = ({ navigation: { navigate } }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 
-  const image =
-    "https://www.seekpng.com/png/detail/966-9665493_my-profile-icon-blank-profile-image-circle.png";
+  const image = "https://pbs.twimg.com/media/Ev8RQYqXMAAqwGj.jpg";
 
   const createUser = async () => {
     let formData = new FormData();
