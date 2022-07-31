@@ -35,6 +35,7 @@ const mongoose = require("mongoose");
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import { decode as atob, encode as btoa } from "base-64";
+import ExpoFastImage from "expo-fast-image";
 
 const arrayBufferToBase64 = (buffer) => {
   var binary = "";

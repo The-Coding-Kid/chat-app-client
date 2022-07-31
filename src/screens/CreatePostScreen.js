@@ -55,7 +55,7 @@ const CreatePOstScreen = ({ navigation: { navigate } }) => {
     formData.append("file", {
       uri: image.uri,
       type: "image/jpeg",
-      name: "image123",
+      name: file_name + Date.now(),
     });
     console.log(image.uri);
 
@@ -228,7 +228,10 @@ const CreatePOstScreen = ({ navigation: { navigate } }) => {
                   borderRadius: 100,
                 }}
                 mode="contained"
-                onPress={() => uploadPhoto()}
+                onPress={async () => {
+                  await uploadPhoto();
+                  navigate("HomeTab");
+                }}
               >
                 Send
               </Button>
