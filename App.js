@@ -107,6 +107,11 @@ function App() {
             component={CreatePOstScreen}
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name="Loading"
+            component={Loading}
+            options={{ headerShown: false }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>

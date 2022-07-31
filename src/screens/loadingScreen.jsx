@@ -7,8 +7,10 @@ const wait = (timeout) => {
 
 const Loading = ({ navigation: { navigate } }) => {
   const refresh = React.useCallback(() => {
-    wait(750).then(() => navigate("HomeTab"));
+    wait(5000).then(() => navigate("HomeTab"));
   }, []);
+
+  refresh();
   return (
     <View style={[styles.container, styles.horizontal]}>
       <ActivityIndicator size="large" color="#0000ff" />

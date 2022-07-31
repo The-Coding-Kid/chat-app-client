@@ -229,8 +229,8 @@ const CreatePOstScreen = ({ navigation: { navigate } }) => {
                 }}
                 mode="contained"
                 onPress={async () => {
+                  navigate("Loading");
                   await uploadPhoto();
-                  navigate("HomeTab");
                 }}
               >
                 Send
