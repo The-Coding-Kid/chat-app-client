@@ -34,6 +34,55 @@ const SignUpScreen = ({ navigation: { navigate } }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 
+  const uploadPhoto = async () => {
+    let formData = new FormData();
+
+    let string = image.uri;
+
+    setUri(image.uri);
+
+    let file_name = " ";
+    //@ts-ignore
+    for (let i = 0; i < image.uri.length; i++) {
+      //@ts-ignore
+      let substr = string.substring(i, image.uri.length);
+      if (!substr.includes("/")) {
+        file_name = substr;
+        break;
+      }
+    }
+    formData.append("file", {
+      uri: image.uri,
+      type: "image/jpeg",
+      name: file_name + Date.now(),
+    });
+    console.log(image.uri);
+
+    formData.append("content", text);
+    formData.append("createdByName", "BoB");
+    formData.append("createdByEmail", "bT21@GMAIL.COM");
+
+    // await fetch("https://e285-98-37-209-152.ngrok.io/api/posts/create", {
+    //   method: "POST",
+    //   body: formData,
+    //   headers: {
+    //     "Content-Type": "multipart/form-data",
+    //   },
+    // }).then((res) => console.log(res));
+
+    let res = await fetch(
+      "https://e285-98-37-209-152.ngrok.io/api/posts/create",
+      {
+        method: "post",
+        body: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    console.log("response: ", res);
+  };
+
   const CreateNewUser = async () => {
     const docData = {
       firstName: firstName,
