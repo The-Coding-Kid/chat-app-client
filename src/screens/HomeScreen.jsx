@@ -107,9 +107,10 @@ const HomeScreen = ({
         <Card mode={"elevated"} style={styles.post}>
           <TouchableOpacity>
             <View style={{ flexDirection: "row" }}>
-              <Image
+              <ExpoFastImage
                 style={styles.tinyLogo}
-                source={{ uri: item.profilePhoto, cache: "only-if-cached" }}
+                cacheKey="item._id"
+                source={{ uri: item.profilePhoto }}
               />
               <View style={{ marginTop: 15, marginLeft: 5 }}>
                 <Text style={{ fontWeight: "bold" }}>{item.createdByName}</Text>
@@ -173,6 +174,10 @@ const HomeScreen = ({
             renderItem={renderItem}
             keyExtractor={(item) => item._id}
             showsVerticalScrollIndicator={false}
+            removeClippedSubviews={true} // Unmount components when outside of window
+            initialNumToRender={5} // Reduce initial render amount
+            maxToRenderPerBatch={2} // Reduce number in each render batch
+            windowSize={12} // Reduce the window size
           />
         </ScrollView>
       </View>
