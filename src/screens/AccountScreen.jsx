@@ -57,7 +57,7 @@ const AccountScreen = ({ navigation: { navigate } }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.stuff}>
-        <Video
+        {/* <Video
           ref={video}
           style={styles.video}
           source={{
@@ -67,7 +67,7 @@ const AccountScreen = ({ navigation: { navigate } }) => {
           resizeMode="contain"
           isLooping
           onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-        />
+        /> */}
         <Title>Welcome Veerrohit</Title>
         <Image
           source={{

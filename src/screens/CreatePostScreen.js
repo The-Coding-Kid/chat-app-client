@@ -27,12 +27,18 @@ const CreatePOstScreen = ({ navigation: { navigate } }) => {
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [cameraRef, setCameraRef] = useState(null);
   const [image, setData] = useState(null);
-  const [text, setText] = useState(null);
+  const [text, setText] = useState("");
   const [character, setCharacter] = useState(0);
   const [uri, setUri] = useState(null);
+  const [disabled, setDisabled] = useState(true);
 
-  const whenTyping = () => {
-    setText();
+  const whenTyping = (event) => {
+    setText(event);
+    if (text.length != 0) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
   };
 
   const uploadPhoto = async () => {
@@ -227,6 +233,7 @@ const CreatePOstScreen = ({ navigation: { navigate } }) => {
                   marginRight: 10,
                   borderRadius: 100,
                 }}
+                disabled={disabled}
                 mode="contained"
                 onPress={async () => {
                   navigate("Loading");
@@ -293,10 +300,12 @@ const CreatePOstScreen = ({ navigation: { navigate } }) => {
                   }}
                   multiline
                   placeholder="Something cooking?"
-                  onChangeText={setText}
+                  onChangeText={(event) => {
+                    whenTyping(event);
+                  }}
                   maxLength={200}
                 ></TextInput>
-                <Text>{text}</Text>
+                <Text style={{ color: "gray" }}>{text.length}/200</Text>
               </View>
             </View>
             {image && (
