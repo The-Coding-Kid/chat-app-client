@@ -122,7 +122,7 @@ const HomeScreen = ({
             <Text style={{ marginTop: 10, marginLeft: 10 }}>
               {item.content}
             </Text>
-            <Image style={styles.image} source={{ uri: item.image }} />
+            <ExpoFastImage style={styles.image} source={{ uri: item.image }} />
           </TouchableOpacity>
           <View
             style={{
@@ -239,6 +239,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 2.5,
     borderRadius: 10,
+    maxHeight: 700,
+    maxWidth: 700,
   },
   fabStyle: {
     bottom: 16,
