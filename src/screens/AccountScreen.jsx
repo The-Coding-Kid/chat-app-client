@@ -76,15 +76,16 @@ const AccountScreen = ({ navigation: { navigate } }) => {
           isLooping
           onPlaybackStatusUpdate={(status) => setStatus(() => status)}
         /> */}
-        <Title>Welcome Veerrohit</Title>
+        <Title>
+          Welcome {data.first_name} {data.last_name}
+        </Title>
         <Image
           source={{
-            uri: "https://www.seekpng.com/png/detail/966-9665493_my-profile-icon-blank-profile-image-circle.png",
+            uri: data.profile_picture,
           }}
           style={styles.tinyLogo}
         />
         <Text>Email: {data.email}</Text>
-        <Text>Password: a***b*</Text>
         <Button
           style={{
             marginTop: 10,
