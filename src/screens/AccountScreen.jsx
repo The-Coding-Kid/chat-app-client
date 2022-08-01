@@ -25,19 +25,19 @@ const AccountScreen = ({ navigation: { navigate } }) => {
   const [firstName, setFirstName] = useState("");
   const video = React.useRef(null);
   const [status, setStatus] = React.useState({});
-
+  const [email, setEmail] = useState(auth.currentUser.email);
   const getUserInfo = async () => {
     const res = await axios.get(
       "https://e285-98-37-209-152.ngrok.io/api/user",
       {
-        params: { email: auth.currentUser?.email },
+        email: email,
       }
     );
-    console.log(res);
+    console.log(res.data);
   };
 
-  useEffect(() => {
-    getUserInfo();
+  useEffect(async () => {
+    await getUserInfo();
   }, []);
 
   const SignOut = () => {
