@@ -25,19 +25,27 @@ const AccountScreen = ({ navigation: { navigate } }) => {
   const [firstName, setFirstName] = useState("");
   const video = React.useRef(null);
   const [status, setStatus] = React.useState({});
-  const [email, setEmail] = useState(auth.currentUser.email);
-  const getUserInfo = async () => {
-    const res = await axios.get(
-      "https://e285-98-37-209-152.ngrok.io/api/user",
-      {
-        email: email,
-      }
-    );
-    console.log(res.data);
+  const [email1, setEmail1] = useState(auth.currentUser.email);
+  const [data, setData] = useState([]);
+
+  const getUserInfo = () => {
+    console.log("Email:" + email1);
+    axios
+      .post("https://e285-98-37-209-152.ngrok.io/api/user", {
+        email: email1,
+      })
+      .then((res) => {
+        console.log(res.data);
+        setData(res.data);
+      });
   };
 
-  useEffect(async () => {
-    await getUserInfo();
+  useEffect(() => {
+    const _ = () => {
+      getUserInfo();
+    };
+    _();
+    console.log(data);
   }, []);
 
   const SignOut = () => {
@@ -75,7 +83,7 @@ const AccountScreen = ({ navigation: { navigate } }) => {
           }}
           style={styles.tinyLogo}
         />
-        <Text>Email: {auth.currentUser?.email}</Text>
+        <Text>Email: {data.email}</Text>
         <Text>Password: a***b*</Text>
         <Button
           style={{
