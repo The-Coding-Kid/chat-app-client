@@ -19,15 +19,15 @@ const querryDataBase = async () => {
 };
 // querryDataBase();
 
-const GroupsScreen = ({ navigation: { navigate } }) => {
+const MyGroupsScreen = ({ navigation: { navigate } }) => {
   useEffect(() => {
     querryDataBase();
   }, []);
   return (
     <View>
-      <Title>Groups</Title>
+      <Title>My Groups</Title>
     </View>
   );
 };
 
-export default GroupsScreen;
+export default MyGroupsScreen;

@@ -6,7 +6,7 @@ import SignInScreen from "./src/screens/SignInScreen";
 import SignUpScreen from "./src/screens/SignUpScreen";
 import HomeScreen from "./src/screens/HomeScreen";
 import AccountScreen from "./src/screens/AccountScreen";
-import GroupsScreen from "./src/screens/GroupsScreen";
+import GroupsScreen from "./src/screens/AllGroupsScreen";
 import { Ionicons } from "@expo/vector-icons";
 import Blank from "./src/screens/blank";
 import { StatusBar } from "expo-status-bar";
@@ -16,9 +16,12 @@ import {
   Provider as PaperProvider,
 } from "react-native-paper";
 import Loading from "./src/screens/loadingScreen";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import MyGroupsScreen from "./src/screens/MyGroupsScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+const TopTab = createMaterialTopTabNavigator();
 
 // const theme = {
 //   ...DefaultTheme,
@@ -69,12 +72,29 @@ const HomeTab = () => {
       />
       <Tab.Screen
         name="Groups"
-        component={GroupsScreen}
+        component={GroupTabs}
         options={{ headerShown: false }}
       />
     </Tab.Navigator>
   );
 };
+
+function GroupTabs() {
+  return (
+    <TopTab.Navigator>
+      <Tab.Screen
+        name=" "
+        component={GroupsScreen}
+        options={{ headerShown: false }}
+      />
+      <Tab.Screen
+        name="  "
+        component={MyGroupsScreen}
+        options={{ headerShown: false }}
+      />
+    </TopTab.Navigator>
+  );
+}
 
 function App() {
   return (

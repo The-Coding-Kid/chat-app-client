@@ -17,6 +17,8 @@ import { Button, Modal, Portal, Provider } from "react-native-paper";
 import { Camera, CameraType } from "expo-camera";
 import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
+import { auth, db } from "../../firebase_init";
+import { manipulateAsync, FlipType, SaveFormat } from "expo-image-manipulator";
 
 const CreatePOstScreen = ({ navigation: { navigate } }) => {
   const [item, setItem] = useState("Public");
@@ -31,6 +33,20 @@ const CreatePOstScreen = ({ navigation: { navigate } }) => {
   const [character, setCharacter] = useState(0);
   const [uri, setUri] = useState(null);
   const [disabled, setDisabled] = useState(true);
+  const [email1, setEmail1] = useState(auth.currentUser.email);
+  const [data, setData2] = useState("");
+
+  const getUserInfo = () => {
+    // console.log("Email:" + email1);
+    axios
+      .post("https://e285-98-37-209-152.ngrok.io/api/user", {
+        email: email1,
+      })
+      .then((res) => {
+        // console.log(res.data);
+        setData2(res.data);
+      });
+  };
 
   const whenTyping = (event) => {
     setText(event);
@@ -40,13 +56,22 @@ const CreatePOstScreen = ({ navigation: { navigate } }) => {
       setDisabled(true);
     }
   };
+  const compressImage = async (image) => {
+    const manipResult = await manipulateAsync(image.localUri || image.uri, {
+      compress: 0.0000000000000000000000000000000000000000001,
+      format: SaveFormat.JPEG,
+    });
+    setUri(manipResult);
+  };
 
   const uploadPhoto = async () => {
     let formData = new FormData();
 
     let string = image.uri;
 
-    setUri(image.uri);
+    // setUri(image.uri);
+
+    compressImage(image);
 
     let file_name = " ";
     //@ts-ignore
@@ -61,13 +86,13 @@ const CreatePOstScreen = ({ navigation: { navigate } }) => {
     formData.append("file", {
       uri: image.uri,
       type: "image/jpeg",
-      name: file_name + Date.now(),
+      name: Date.now() + file_name,
     });
     console.log(image.uri);
 
     formData.append("content", text);
-    formData.append("createdByName", "BoB");
-    formData.append("createdByEmail", "bT21@GMAIL.COM");
+    formData.append("createdByName", data.first_name + " " + data.last_name);
+    formData.append("createdByEmail", data.email);
 
     // await fetch("https://e285-98-37-209-152.ngrok.io/api/posts/create", {
     //   method: "POST",
@@ -87,9 +112,10 @@ const CreatePOstScreen = ({ navigation: { navigate } }) => {
         },
       }
     );
-    console.log("response: ", res);
+    // console.log("response: ", res);
   };
   useEffect(() => {
+    getUserInfo();
     (async () => {
       const { status } = await Camera.requestPermissionsAsync();
       setHasPermission(status === "granted");
@@ -135,7 +161,7 @@ const CreatePOstScreen = ({ navigation: { navigate } }) => {
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 0.7,
+      quality: 0.0000000001,
     });
 
     if (result.cancelled === false) {
@@ -171,7 +197,7 @@ const CreatePOstScreen = ({ navigation: { navigate } }) => {
             ref={(ref) => {
               setCameraRef(ref);
             }}
-            ratio="474:266"
+            ratio="0.474:0.266"
           >
             <View style={styles.buttonContainer}>
               <TouchableOpacity

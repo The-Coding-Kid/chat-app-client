@@ -36,6 +36,7 @@ import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import { decode as atob, encode as btoa } from "base-64";
 import ExpoFastImage from "expo-fast-image";
+import * as ImageManipulator from "expo-image-manipulator";
 
 const arrayBufferToBase64 = (buffer) => {
   var binary = "";
@@ -59,6 +60,8 @@ const HomeScreen = ({
   const [DATA, setPosts] = useState("");
   const [refreshing, setRefreshing] = useState(false);
   const [fabcolor, setFabColor] = useState("white");
+  const [image, setImage] = useState("");
+  const [data, setData2] = useState("");
 
   const [isExtended, setIsExtended] = React.useState(true);
 
@@ -101,7 +104,38 @@ const HomeScreen = ({
     }
   };
 
+  const getUserInfo = (email1) => {
+    // console.log("Email:" + email1);
+    axios
+      .post("https://e285-98-37-209-152.ngrok.io/api/user", {
+        email: email1,
+      })
+      .then((res) => {
+        // console.log(res.data);
+        setData2(res.data);
+        console.log(data);
+      });
+  };
+
   const renderItem = ({ item }) => {
+    const file = async () => {
+      // await setImage(
+      //   ImageManipulator.manipulateAsync(item.image, [], { compress: 0.5 })
+    };
+
+    // // file();
+    axios
+      .post("https://e285-98-37-209-152.ngrok.io/api/user", {
+        email: item.createByEmail,
+      })
+      .then((res) => {
+        // console.log(res.data);
+        setData2(res.data);
+        console.log(data);
+      });
+
+    const email1 = item.createByEmail;
+
     return (
       <View>
         <Card mode={"elevated"} style={styles.post}>
@@ -110,7 +144,7 @@ const HomeScreen = ({
               <ExpoFastImage
                 style={styles.tinyLogo}
                 cacheKey="item._id"
-                source={{ uri: item.profilePhoto }}
+                source={{ uri: data }}
               />
               <View style={{ marginTop: 15, marginLeft: 5 }}>
                 <Text style={{ fontWeight: "bold" }}>{item.createdByName}</Text>
