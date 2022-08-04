@@ -40,13 +40,25 @@ const GroupsScreen = ({ navigation: { navigate } }) => {
   };
 
   const renderItem = ({ item }) => {
-    return (
-      <View>
-        <View style={{}}>
-          <Text>{item.name}</Text>
+    if (item.name == "Public") {
+      return null;
+    } else {
+      return (
+        <View>
+          <View
+            style={{
+              backgroundColor: "blue",
+              marginRight: 10,
+              height: 80,
+              borderRadius: 10,
+            }}
+          >
+            <Text style={{ marginVertical: 10 }}>{item.name}</Text>
+            <Text>{item.createdByEmail}</Text>
+          </View>
         </View>
-      </View>
-    );
+      );
+    }
   };
 
   return (

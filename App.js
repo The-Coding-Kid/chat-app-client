@@ -18,6 +18,7 @@ import {
 import Loading from "./src/screens/loadingScreen";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import MyGroupsScreen from "./src/screens/MyGroupsScreen";
+import ChatScreen from "./src/screens/ChatScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -55,6 +56,9 @@ const HomeTab = () => {
           } else if (route.name === "Groups") {
             iconName = "people-circle-outline";
             color = focused ? "#0079fd" : "#7a7a7a";
+          } else if (route.name === "Chat") {
+            iconName = "chatbubbles-outline";
+            color = focused ? "#0079fd" : "#7a7a7a";
           }
           return <Ionicons name={iconName} size={22} color={color} />;
         },
@@ -73,6 +77,11 @@ const HomeTab = () => {
       <Tab.Screen
         name="Groups"
         component={GroupTabs}
+        options={{ headerShown: false }}
+      />
+      <Tab.Screen
+        name="Chat"
+        component={ChatScreen}
         options={{ headerShown: false }}
       />
     </Tab.Navigator>
