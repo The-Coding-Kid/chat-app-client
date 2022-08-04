@@ -10,6 +10,7 @@ import {
   Keyboard,
   TouchableOpacity,
   ScrollView,
+  FlatList,
 } from "react-native";
 import { TextInput } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -21,7 +22,7 @@ import { auth, db } from "../../firebase_init";
 import { manipulateAsync, FlipType, SaveFormat } from "expo-image-manipulator";
 
 const CreatePOstScreen = ({ navigation: { navigate } }) => {
-  const [item, setItem] = useState("Public");
+  const [postedIn, setItem] = useState("Public");
   const [visible, setVisible] = React.useState(false);
   const [visible2, setVisible2] = useState(false);
 
@@ -35,11 +36,13 @@ const CreatePOstScreen = ({ navigation: { navigate } }) => {
   const [disabled, setDisabled] = useState(true);
   const [email1, setEmail1] = useState(auth.currentUser.email);
   const [data, setData2] = useState("");
+  const [color, setColor] = useState("gray");
+  const [bordered, setBordered] = useState("Public");
 
   const getUserInfo = () => {
     // console.log("Email:" + email1);
     axios
-      .post("https://e285-98-37-209-152.ngrok.io/api/user", {
+      .post("https://e717-98-37-181-150.ngrok.io/api/user", {
         email: email1,
       })
       .then((res) => {
@@ -88,13 +91,16 @@ const CreatePOstScreen = ({ navigation: { navigate } }) => {
       type: "image/jpeg",
       name: Date.now() + file_name,
     });
-    console.log(image.uri);
+
+    console.log(data.profile_picture);
 
     formData.append("content", text);
     formData.append("createdByName", data.first_name + " " + data.last_name);
     formData.append("createdByEmail", data.email);
+    formData.append("group_posted_in", bordered);
+    formData.append("profile_photo", data.profile_picture);
 
-    // await fetch("https://e285-98-37-209-152.ngrok.io/api/posts/create", {
+    // await fetch("https://e717-98-37-181-150.ngrok.io/api/posts/create", {
     //   method: "POST",
     //   body: formData,
     //   headers: {
@@ -103,7 +109,7 @@ const CreatePOstScreen = ({ navigation: { navigate } }) => {
     // }).then((res) => console.log(res));
 
     let res = await fetch(
-      "https://e285-98-37-209-152.ngrok.io/api/posts/create",
+      "https://e717-98-37-181-150.ngrok.io/api/posts/create",
       {
         method: "post",
         body: formData,
@@ -170,6 +176,58 @@ const CreatePOstScreen = ({ navigation: { navigate } }) => {
     }
   };
 
+  const renderItem = ({ item }) => {
+    if (item == bordered) {
+      return (
+        <TouchableOpacity style={{ flexDirection: "row" }}>
+          <View
+            style={{
+              marginTop: 10,
+              height: 50,
+              borderWidth: 3,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 20,
+              borderColor: "#6fc25b",
+              width: "84%",
+            }}
+          >
+            <Text style={{ color: "#6fc25b", fontWeight: "bold" }}>{item}</Text>
+          </View>
+          <Ionicons
+            name="checkbox-outline"
+            color="#6fc25b"
+            style={{ marginLeft: 10, marginTop: 7 }}
+            size={50}
+          />
+        </TouchableOpacity>
+      );
+    } else {
+      return (
+        <TouchableOpacity
+          onPress={() => {
+            setBordered(item);
+            setItem(item.slice(0, 6));
+          }}
+        >
+          <View
+            style={{
+              marginTop: 10,
+              height: 50,
+              borderWidth: 2,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 20,
+              borderColor: "#cdcccf",
+            }}
+          >
+            <Text style={{ color: "#cdcccf" }}>{item}</Text>
+          </View>
+        </TouchableOpacity>
+      );
+    }
+  };
+
   return (
     <Provider>
       <Portal>
@@ -180,7 +238,13 @@ const CreatePOstScreen = ({ navigation: { navigate } }) => {
           contentContainerStyle={containerStyle}
           style={{ height: "90%" }}
         >
-          <Text>Example Modal. Click outside this area to dismiss.</Text>
+          <ScrollView>
+            <FlatList
+              data={data.groups_joined}
+              renderItem={renderItem}
+              keyExtractor={(item) => item}
+            />
+          </ScrollView>
         </Modal>
       </Portal>
       <Portal>
@@ -273,8 +337,8 @@ const CreatePOstScreen = ({ navigation: { navigate } }) => {
               <Image
                 style={styles.tinyLogo}
                 source={{
-                  uri: "https://media.brawltime.ninja/brawlers/bonnie/pins/Pin-Phew.png?size=160",
-                  cache: "only-if-cached",
+                  uri: data.profile_picture,
+                  // cache: "only-if-cached",
                 }}
               />
               <View style={{ marginLeft: 30, marginTop: 10 }}>
@@ -292,7 +356,7 @@ const CreatePOstScreen = ({ navigation: { navigate } }) => {
                     onPress={showModal}
                   >
                     <View style={{ flexDirection: "row" }}>
-                      <Text style={{ color: "#3c65a0" }}>{item}</Text>
+                      <Text style={{ color: "#3c65a0" }}>{postedIn}</Text>
                       <Text> </Text>
                       <Ionicons
                         name={"chevron-down-outline"}

@@ -12,7 +12,7 @@ import axios from "axios";
 
 const querryDataBase = async () => {
   const response = await axios(
-    "https://e285-98-37-209-152.ngrok.io/api/posts",
+    "https://e717-98-37-181-150.ngrok.io/api/posts",
     { responseType: "blob" }
   );
   console.log(response);

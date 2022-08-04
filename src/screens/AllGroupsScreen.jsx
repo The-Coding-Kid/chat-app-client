@@ -8,22 +8,33 @@ import {
   TouchableWithoutFeedback,
   FlatList,
   ScrollView,
+  RefreshControl,
 } from "react-native";
 import { Title, Button } from "react-native-paper";
 import axios from "axios";
 
 // querryDataBase();
+const wait = (timeout) => {
+  return new Promise((resolve) => setTimeout(resolve, timeout));
+};
 
 const GroupsScreen = ({ navigation: { navigate } }) => {
   const [data, setData] = useState("");
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     querryDataBase();
   }, []);
 
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(750).then(() => setRefreshing(false));
+    querryDataBase();
+  }, []);
+
   const querryDataBase = async () => {
     const response = await axios(
-      "https://e285-98-37-209-152.ngrok.io/api/groups"
+      "https://e717-98-37-181-150.ngrok.io/api/groups"
     );
     setData(response.data);
   };
@@ -39,7 +50,13 @@ const GroupsScreen = ({ navigation: { navigate } }) => {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+      // onScroll={onScroll}
+    >
       <View style={{ marginLeft: 10, marginTop: 10 }}>
         <Title>Public Groups</Title>
         <FlatList

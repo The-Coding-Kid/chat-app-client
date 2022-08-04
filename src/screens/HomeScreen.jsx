@@ -77,8 +77,11 @@ const HomeScreen = ({
   const fabStyle = { [animateFrom]: 5 };
 
   const getData = async () => {
-    const response = await axios(
-      "https://e285-98-37-209-152.ngrok.io/api/posts"
+    const response = await axios.post(
+      "https://e717-98-37-181-150.ngrok.io/api/posts",
+      {
+        email: auth.currentUser.email,
+      }
     );
     setPosts(response.data);
     // console.log(response.data[0].image.data.data);
@@ -104,19 +107,6 @@ const HomeScreen = ({
     }
   };
 
-  const getUserInfo = (email1) => {
-    // console.log("Email:" + email1);
-    axios
-      .post("https://e285-98-37-209-152.ngrok.io/api/user", {
-        email: email1,
-      })
-      .then((res) => {
-        // console.log(res.data);
-        setData2(res.data);
-        console.log(data);
-      });
-  };
-
   const renderItem = ({ item }) => {
     const file = async () => {
       // await setImage(
@@ -124,17 +114,32 @@ const HomeScreen = ({
     };
 
     // // file();
-    axios
-      .post("https://e285-98-37-209-152.ngrok.io/api/user", {
-        email: item.createByEmail,
-      })
-      .then((res) => {
-        // console.log(res.data);
-        setData2(res.data);
-        console.log(data);
-      });
+    // console.log(item.createdByEmail);
+    // axios
+    //   .post("https://e717-98-37-181-150.ngrok.io/api/user", {
+    //     email: theEmail,
+    //   })
+    //   .then((res) => {
+    //     // console.log(res.data);
+    //     setData2(res.data.profile_picture);
+    //     // console.log(data);
+    //   });
+    const theEmail = item.createdByEmail;
+    // console.log(theEmail);
 
-    const email1 = item.createByEmail;
+    const getDaInfo = () => {
+      axios
+        .post("https://e717-98-37-181-150.ngrok.io/api/user", {
+          email: theEmail,
+        })
+        .then((res) => {
+          // console.log(res.data);
+          setData2(res.data.profile_picture);
+          // console.log(data);
+        });
+    };
+
+    getDaInfo();
 
     return (
       <View>
