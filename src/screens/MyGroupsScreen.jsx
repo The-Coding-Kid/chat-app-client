@@ -79,6 +79,7 @@ const MyGroupsScreen = ({ navigation: { navigate } }) => {
                 posts: item.posts,
                 id: item._id,
               });
+              console.log(item.posts);
             }}
           >
             <Card mode={"elevated"} style={styles.post}>

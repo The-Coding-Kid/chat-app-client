@@ -66,6 +66,8 @@ const DetailScreen = ({ route, navigation: { navigate, goBack } }) => {
   }, []);
 
   const renderItem = ({ item }) => {
+    console.log(item);
+
     const theEmail = item.createdByEmail;
     // console.log(theEmail);
 
@@ -152,7 +154,7 @@ const DetailScreen = ({ route, navigation: { navigate, goBack } }) => {
       <FlatList
         data={newPosts}
         renderItem={renderItem}
-        keyExtractor={(item) => item._id}
+        keyExtractor={(item) => item.name}
         showsVerticalScrollIndicator={false}
         removeClippedSubviews={true} // Unmount components when outside of window
         initialNumToRender={5} // Reduce initial render amount
