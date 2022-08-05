@@ -12,17 +12,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 import { auth } from "../../firebase_init";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { db } from "../../firebase_init";
-import {
-  collection,
-  addDoc,
-  query,
-  where,
-  getDocs,
-  deleteDoc,
-  doc,
-  setDoc,
-} from "firebase/firestore";
 
 const SignInScreen = ({ navigation: { navigate } }) => {
   const [password, setPassword] = useState("");

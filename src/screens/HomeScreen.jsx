@@ -19,17 +19,7 @@ import {
   Text,
   AnimatedFAB,
 } from "react-native-paper";
-import { db, auth } from "../../firebase_init";
-import {
-  collection,
-  addDoc,
-  query,
-  where,
-  getDocs,
-  deleteDoc,
-  doc,
-  setDoc,
-} from "firebase/firestore";
+import { auth } from "../../firebase_init";
 import { StatusBar } from "expo-status-bar";
 const mongoose = require("mongoose");
 import { Ionicons } from "@expo/vector-icons";

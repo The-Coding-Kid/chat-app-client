@@ -27,7 +27,7 @@ const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
 };
 
-const DetailScreen = ({ route, navigation: { navigate } }) => {
+const DetailScreen = ({ route, navigation: { navigate, goBack } }) => {
   const { posts, id } = route.params;
   const [newPosts, setNewPosts] = useState("");
   const [data, setData2] = useState("");
@@ -66,22 +66,6 @@ const DetailScreen = ({ route, navigation: { navigate } }) => {
   }, []);
 
   const renderItem = ({ item }) => {
-    const file = async () => {
-      // await setImage(
-      //   ImageManipulator.manipulateAsync(item.image, [], { compress: 0.5 })
-    };
-
-    // // file();
-    // console.log(item.createdByEmail);
-    // axios
-    //   .post("https://e717-98-37-181-150.ngrok.io/api/user", {
-    //     email: theEmail,
-    //   })
-    //   .then((res) => {
-    //     // console.log(res.data);
-    //     setData2(res.data.profile_picture);
-    //     // console.log(data);
-    //   });
     const theEmail = item.createdByEmail;
     // console.log(theEmail);
 
@@ -158,7 +142,13 @@ const DetailScreen = ({ route, navigation: { navigate } }) => {
   //   console.log(newPosts);
   return (
     <SafeAreaView backgroundColor={"white"}>
-      <Text>Bruh meme</Text>
+      <TouchableOpacity onPress={() => goBack()}>
+        <Ionicons
+          name="arrow-back-outline"
+          size={25}
+          style={{ marginLeft: 10 }}
+        />
+      </TouchableOpacity>
       <FlatList
         data={newPosts}
         renderItem={renderItem}

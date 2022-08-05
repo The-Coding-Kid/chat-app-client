@@ -87,63 +87,58 @@ const AllGroupsScreen = ({ navigation: { navigate } }) => {
     // console.log(item.posts);
     return (
       <View>
-        <TouchableOpacity
-          onPress={() => {
-            navigate("Details", {
-              posts: item.posts,
-              id: item._id,
-            });
-          }}
-        >
-          <Card mode={"elevated"} style={styles.post}>
-            <ImageBackground
-              source={{
-                uri: item.background,
+        <Card mode={"elevated"} style={styles.post}>
+          <ImageBackground
+            source={{
+              uri: item.background,
+            }}
+            style={{ height: 100, borderRadius: 100 }}
+          >
+            <View
+              style={{
+                flexDirection: "row",
               }}
-              style={{ height: 100, borderRadius: 100 }}
             >
-              <View
+              <Text
                 style={{
-                  flexDirection: "row",
+                  fontWeight: "bold",
+                  fontSize: 20,
+                  color: "white",
+                  marginLeft: 10,
                 }}
               >
-                <Text
-                  style={{
-                    fontWeight: "bold",
-                    fontSize: 20,
-                    color: "white",
-                    marginLeft: 10,
-                  }}
-                >
-                  {item.name}
-                </Text>
-                {/* <Ionicons
+                {item.name}
+              </Text>
+              {/* <Ionicons
                 style={{ marginLeft: "50%" }}
                 name={"chevron-forward-outline"}
                 size={60}
               /> */}
-              </View>
-            </ImageBackground>
-            <Button
-              style={{
-                marginTop: 20,
-                backgroundColor: "#3c65a0",
-                width: 200,
-                alignSelf: "center",
-              }}
-              mode={"contained"}
-              onPress={() => {
-                try {
-                  joinDaGroup(theID, theName);
-                } catch {
-                  console.log("bob");
-                }
-              }}
-            >
-              Join
-            </Button>
-          </Card>
-        </TouchableOpacity>
+            </View>
+          </ImageBackground>
+          <Button
+            style={{
+              marginTop: 20,
+              backgroundColor: "#3c65a0",
+              width: 200,
+              alignSelf: "center",
+            }}
+            mode={"contained"}
+            onPress={() => {
+              try {
+                joinDaGroup(theID, theName);
+                navigate("Details", {
+                  posts: item.posts,
+                  id: item._id,
+                });
+              } catch {
+                console.log("bob");
+              }
+            }}
+          >
+            Join
+          </Button>
+        </Card>
       </View>
     );
   };
