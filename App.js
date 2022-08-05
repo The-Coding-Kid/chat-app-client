@@ -19,7 +19,7 @@ import Loading from "./src/screens/loadingScreen";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import MyGroupsScreen from "./src/screens/MyGroupsScreen";
 import ChatScreen from "./src/screens/ChatScreen";
-
+import DetailScreen from "./src/screens/DetailsScreen";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const TopTab = createMaterialTopTabNavigator();
@@ -139,6 +139,11 @@ function App() {
           <Stack.Screen
             name="Loading"
             component={Loading}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Details"
+            component={DetailScreen}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 
 const ChatScreen = ({ navigation: { navigate } }) => {
   return <View style={[styles.container, styles.horizontal]}></View>;
