@@ -62,7 +62,7 @@ const CreatePOstScreen = ({ navigation: { navigate } }) => {
   const compressImage = async (image) => {
     const manipResult = await manipulateAsync(image.localUri || image.uri, {
       compress: 0.0000000000000000000000000000000000000000001,
-      format: SaveFormat.JPEG,
+      format: SaveFormat.WEBP,
     });
     setUri(manipResult);
   };
@@ -86,9 +86,11 @@ const CreatePOstScreen = ({ navigation: { navigate } }) => {
         break;
       }
     }
+
+    console.log(file_name);
     formData.append("file", {
       uri: image.uri,
-      type: "image/jpeg",
+      type: "image/webp",
       name: Date.now() + file_name,
     });
 
