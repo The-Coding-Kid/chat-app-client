@@ -68,7 +68,7 @@ const HomeScreen = ({
 
   const getData = async () => {
     const response = await axios.post(
-      "https://e717-98-37-181-150.ngrok.io/api/posts",
+      "https://ed58-98-37-209-152.ngrok.io/api/posts",
       {
         email: auth.currentUser.email,
       }
@@ -106,7 +106,7 @@ const HomeScreen = ({
     // // file();
     // console.log(item.createdByEmail);
     // axios
-    //   .post("https://e717-98-37-181-150.ngrok.io/api/user", {
+    //   .post("https://ed58-98-37-209-152.ngrok.io/api/user", {
     //     email: theEmail,
     //   })
     //   .then((res) => {
@@ -119,7 +119,7 @@ const HomeScreen = ({
 
     const getDaInfo = () => {
       axios
-        .post("https://e717-98-37-181-150.ngrok.io/api/user", {
+        .post("https://ed58-98-37-209-152.ngrok.io/api/user", {
           email: theEmail,
         })
         .then((res) => {

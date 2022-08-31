@@ -29,7 +29,7 @@ const AllGroupsScreen = ({ navigation: { navigate } }) => {
 
   const getDaOtherInfo = () => {
     axios
-      .post("https://e717-98-37-181-150.ngrok.io/api/user", {
+      .post("https://ed58-98-37-209-152.ngrok.io/api/user", {
         email: auth.currentUser.email,
       })
       .then((res) => {
@@ -40,7 +40,7 @@ const AllGroupsScreen = ({ navigation: { navigate } }) => {
   };
   const joinDaGroup = (theID, theName) => {
     axios
-      .post("https://e717-98-37-181-150.ngrok.io/api/groups/join", {
+      .post("https://ed58-98-37-209-152.ngrok.io/api/groups/join", {
         email: auth.currentUser.email,
         group_id: theID,
         group_name: theName,
@@ -67,7 +67,7 @@ const AllGroupsScreen = ({ navigation: { navigate } }) => {
 
   const querryDataBase = () => {
     axios
-      .post("https://e717-98-37-181-150.ngrok.io/api/groups/notjoined", {
+      .post("https://ed58-98-37-209-152.ngrok.io/api/groups/notjoined", {
         email: auth.currentUser.email,
       })
       .then((res) => {

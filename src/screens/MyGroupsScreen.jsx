@@ -29,7 +29,7 @@ const MyGroupsScreen = ({ navigation: { navigate } }) => {
 
   const getDaOtherInfo = () => {
     axios
-      .post("https://e717-98-37-181-150.ngrok.io/api/user", {
+      .post("https://ed58-98-37-209-152.ngrok.io/api/user", {
         email: auth.currentUser.email,
       })
       .then((res) => {
@@ -54,7 +54,7 @@ const MyGroupsScreen = ({ navigation: { navigate } }) => {
 
   const querryDataBase = async () => {
     const response = await axios(
-      "https://e717-98-37-181-150.ngrok.io/api/groups"
+      "https://ed58-98-37-209-152.ngrok.io/api/groups"
     );
     setData(response.data);
   };

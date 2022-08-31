@@ -42,7 +42,7 @@ const CreatePOstScreen = ({ navigation: { navigate } }) => {
   const getUserInfo = () => {
     // console.log("Email:" + email1);
     axios
-      .post("https://e717-98-37-181-150.ngrok.io/api/user", {
+      .post("https://ed58-98-37-209-152.ngrok.io/api/user", {
         email: email1,
       })
       .then((res) => {
@@ -102,7 +102,7 @@ const CreatePOstScreen = ({ navigation: { navigate } }) => {
     formData.append("group_posted_in", bordered);
     formData.append("profile_photo", data.profile_picture);
 
-    // await fetch("https://e717-98-37-181-150.ngrok.io/api/posts/create", {
+    // await fetch("https://ed58-98-37-209-152.ngrok.io/api/posts/create", {
     //   method: "POST",
     //   body: formData,
     //   headers: {
@@ -111,7 +111,7 @@ const CreatePOstScreen = ({ navigation: { navigate } }) => {
     // }).then((res) => console.log(res));
 
     let res = await fetch(
-      "https://e717-98-37-181-150.ngrok.io/api/posts/create",
+      "https://ed58-98-37-209-152.ngrok.io/api/posts/create",
       {
         method: "post",
         body: formData,

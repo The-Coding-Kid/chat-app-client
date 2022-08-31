@@ -62,7 +62,7 @@ const SignUpScreen = ({ navigation: { navigate } }) => {
     formData.append("last_name", lastName);
     formData.append("email", email);
 
-    // await fetch("https://e717-98-37-181-150.ngrok.io/api/posts/create", {
+    // await fetch("https://ed58-98-37-209-152.ngrok.io/api/posts/create", {
     //   method: "POST",
     //   body: formData,
     //   headers: {
@@ -70,7 +70,7 @@ const SignUpScreen = ({ navigation: { navigate } }) => {
     //   },
     // }).then((res) => console.log(res));
 
-    let res = await fetch("https://e717-98-37-181-150.ngrok.io/api/register", {
+    let res = await fetch("https://ed58-98-37-209-152.ngrok.io/api/register", {
       method: "post",
       body: formData,
       headers: {

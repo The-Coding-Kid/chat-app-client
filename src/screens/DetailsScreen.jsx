@@ -51,7 +51,7 @@ const DetailScreen = ({ route, navigation: { navigate, goBack } }) => {
 
   const getDaInfo = () => {
     axios
-      .post("https://e717-98-37-181-150.ngrok.io/api/posts/getlist", {
+      .post("https://ed58-98-37-209-152.ngrok.io/api/posts/getlist", {
         id: posts,
       })
       .then((res) => {
@@ -73,7 +73,7 @@ const DetailScreen = ({ route, navigation: { navigate, goBack } }) => {
 
     const getDaOtherInfo = () => {
       axios
-        .post("https://e717-98-37-181-150.ngrok.io/api/user", {
+        .post("https://ed58-98-37-209-152.ngrok.io/api/user", {
           email: theEmail,
         })
         .then((res) => {
