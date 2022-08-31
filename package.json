@@ -23,7 +23,7 @@
     "@reduxjs/toolkit": "^1.8.3",
     "@types/jest": "^28.1.7",
     "@types/node": "^18.7.11",
-    "@types/react": "^18.0.17",
+    "@types/react": "~17.0.21",
     "@types/react-dom": "^18.0.6",
     "axios": "^0.26.1",
     "base-64": "^1.0.0",
@@ -61,7 +61,8 @@
     "urid": "^1.1.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9"
+    "@babel/core": "^7.12.9",
+    "@types/react-native": "~0.64.12"
   },
   "private": true
 }
