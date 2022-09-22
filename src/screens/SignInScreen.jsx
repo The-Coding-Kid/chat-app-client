@@ -39,19 +39,19 @@ const SignInScreen = ({ navigation: { navigate } }) => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View>
         <Title style={{ marginTop: 100, fontSize: 30, alignSelf: "center" }}>
-          Sign in to [insert name here]
+          Sign in to Blue Ink
         </Title>
+        {/* FIXME: image isnt showing up */}
         <Image
           style={{
             height: 100,
             width: 100,
             alignSelf: "center",
             marginTop: 20,
-            cache: "only-if-cached",
+            zIndex: 99,
+            overflow: "hidden",
           }}
-          source={{
-            uri: "https://hershey-montessori.org/wp-content/uploads/2020/03/facebook-logo.png",
-          }}
+          source={"../../assets/images/icon.jpg"}
         />
         <TextInput
           style={{ marginTop: 20, width: 300, alignSelf: "center" }}

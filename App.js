@@ -23,6 +23,8 @@ import DetailScreen from "./src/screens/DetailsScreen";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const TopTab = createMaterialTopTabNavigator();
+import { enableScreens } from "react-native-screens";
+enableScreens();
 
 // const theme = {
 //   ...DefaultTheme,

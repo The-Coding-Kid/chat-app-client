@@ -58,7 +58,8 @@
     "redux-thunk": "^2.4.1",
     "tinify": "^1.6.1",
     "typescript": "^4.7.4",
-    "urid": "^1.1.0"
+    "urid": "^1.1.0",
+    "expo-updates": "~0.11.7"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

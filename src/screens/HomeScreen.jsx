@@ -51,7 +51,6 @@ const HomeScreen = ({
   const [refreshing, setRefreshing] = useState(false);
   const [fabcolor, setFabColor] = useState("white");
   const [image, setImage] = useState("");
-  const [data, setData2] = useState("");
 
   const [isExtended, setIsExtended] = React.useState(true);
 
@@ -98,39 +97,6 @@ const HomeScreen = ({
   };
 
   const renderItem = ({ item }) => {
-    const file = async () => {
-      // await setImage(
-      //   ImageManipulator.manipulateAsync(item.image, [], { compress: 0.5 })
-    };
-
-    // // file();
-    // console.log(item.createdByEmail);
-    // axios
-    //   .post("https://ed58-98-37-209-152.ngrok.io/api/user", {
-    //     email: theEmail,
-    //   })
-    //   .then((res) => {
-    //     // console.log(res.data);
-    //     setData2(res.data.profile_picture);
-    //     // console.log(data);
-    //   });
-    const theEmail = item.createdByEmail;
-    // console.log(theEmail);
-
-    const getDaInfo = () => {
-      axios
-        .post("https://ed58-98-37-209-152.ngrok.io/api/user", {
-          email: theEmail,
-        })
-        .then((res) => {
-          // console.log(res.data);
-          setData2(res.data.profile_picture);
-          // console.log(data);
-        });
-    };
-
-    getDaInfo();
-
     return (
       <View>
         <Card mode={"elevated"} style={styles.post}>
@@ -139,7 +105,7 @@ const HomeScreen = ({
               <ExpoFastImage
                 style={styles.tinyLogo}
                 cacheKey="item._id"
-                source={{ uri: data }}
+                uri={item.uri}
               />
               <View style={{ marginTop: 15, marginLeft: 5 }}>
                 <Text style={{ fontWeight: "bold" }}>{item.createdByName}</Text>
@@ -197,6 +163,7 @@ const HomeScreen = ({
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
           onScroll={onScroll}
+          scrollEventThrottle={20}
         >
           <FlatList
             data={DATA}

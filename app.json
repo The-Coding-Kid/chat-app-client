@@ -3,6 +3,7 @@
     "name": "chat-app",
     "slug": "chat-app",
     "version": "1.0.0",
+    "owner": "veerrohitv",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -22,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.PNG",
         "backgroundColor": "#e1fcf7"
-      }
+      },
+      "package": "com.veerrohitv.chatapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
