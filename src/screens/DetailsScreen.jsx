@@ -35,7 +35,7 @@ const DetailScreen = ({ route, navigation: { navigate, goBack } }) => {
   const [color, setColor] = useState("black");
 
   const liked = (item) => {
-    if (item == "heart-outline") {
+    if (item === "heart-outline") {
       setHeart("heart");
       setColor("red");
     } else {

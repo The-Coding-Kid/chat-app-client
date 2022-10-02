@@ -10,7 +10,7 @@ import GroupsScreen from "./src/screens/AllGroupsScreen";
 import { Ionicons } from "@expo/vector-icons";
 import Blank from "./src/screens/blank";
 import { StatusBar } from "expo-status-bar";
-import CreatePOstScreen from "./src/screens/CreatePostScreen";
+import CreatePostScreen from "./src/screens/CreatePostScreen";
 import {
   MD3LightTheme as DefaultTheme,
   Provider as PaperProvider,
@@ -135,7 +135,7 @@ function App() {
           />
           <Stack.Screen
             name="Create Post"
-            component={CreatePOstScreen}
+            component={CreatePostScreen}
             options={{ headerShown: false }}
           />
           <Stack.Screen

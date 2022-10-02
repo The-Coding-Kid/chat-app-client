@@ -21,7 +21,7 @@ import axios from "axios";
 import { auth, db } from "../../firebase_init";
 import { manipulateAsync, FlipType, SaveFormat } from "expo-image-manipulator";
 
-const CreatePOstScreen = ({ navigation: { navigate } }) => {
+const CreatePostScreen = ({ navigation: { navigate } }) => {
   const [postedIn, setItem] = useState("Public");
   const [visible, setVisible] = React.useState(false);
   const [visible2, setVisible2] = useState(false);
@@ -440,4 +440,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreatePOstScreen;
+export default CreatePostScreen;
